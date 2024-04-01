@@ -1,12 +1,33 @@
-import { ref, computed } from 'vue'
+import { onMounted, ref } from 'vue'
 import { defineStore } from 'pinia'
 
+export type RoleType =
+  | 'ADMIN'
+  | 'AGENT'
+  | 'ACCOUNT_MANAGER'
+  | 'EXTERNAL_REVIEWER'
+  | 'WORKSPACE_MANAGER'
+
+type UserType = {
+  id: number
+  name: string
+  email: string
+  avatar: string
+  role: RoleType
+}
+
 export const useUsersStore = defineStore('users', () => {
-  const count = ref(0)
-  const doubleCount = computed(() => count.value * 2)
-  function increment() {
-    count.value++
+  const users = ref<Array<UserType>>([])
+
+  const fetchUsers = () => {
+    fetch('/users.json')
+      .then((response) => response.json())
+      .then((data) => {
+        users.value = data.users
+      })
   }
 
-  return { count, doubleCount, increment }
+  onMounted(() => fetchUsers())
+
+  return { users, fetchUsers }
 })

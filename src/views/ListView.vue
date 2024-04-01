@@ -4,6 +4,9 @@ import ButtonItem from '@/components/ButtonItem.vue'
 import EditIcon from '@/components/EditIcon.vue'
 import TrashIcon from '@/components/TrashIcon.vue'
 import UserItem from '@/components/UserItem.vue'
+import { useUsersStore } from '@/stores/users'
+
+const users = useUsersStore()
 </script>
 
 <template>

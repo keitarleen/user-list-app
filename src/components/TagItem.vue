@@ -1,5 +1,5 @@
 <script setup lang="ts">
-type Role = 'ADMIN' | 'AGENT' | 'ACCOUNT_MANAGER' | 'EXTERNAL_REVIEWER' | 'WORKSPACE_MANAGER'
+import type { Role } from '@/stores/users'
 
 const ROLE = {
   ADMIN: 'Admin',
