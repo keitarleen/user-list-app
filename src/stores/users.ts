@@ -17,17 +17,17 @@ type UserType = {
 }
 
 export const useUsersStore = defineStore('users', () => {
-  const users = ref<Array<UserType>>([])
+  const data = ref<Array<UserType>>([])
 
   const fetchUsers = () => {
     fetch('/users.json')
       .then((response) => response.json())
-      .then((data) => {
-        users.value = data.users
+      .then((json) => {
+        data.value = json.users
       })
   }
 
   onMounted(() => fetchUsers())
 
-  return { users, fetchUsers }
+  return { data, fetchUsers }
 })

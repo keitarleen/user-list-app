@@ -4,10 +4,15 @@ import ButtonItem from '@/components/ButtonItem.vue'
 import EditIcon from '@/components/EditIcon.vue'
 import TrashIcon from '@/components/TrashIcon.vue'
 import TagItem from '@/components/TagItem.vue'
+import type { RoleType } from '@/stores/users'
 
 withDefaults(
   defineProps<{
     selected?: boolean
+    name: string
+    email: string
+    thumbnail: string
+    role: RoleType
   }>(),
   { selected: false }
 )
@@ -21,7 +26,7 @@ const test = () => {
 
 <template>
   <div
-    class="flex items-center gap-2 px-4 py-3 rounded cursor-pointer"
+    class="flex items-center gap-2 px-4 py-3 h-16 rounded cursor-pointer"
     :class="{ selected: selected }"
     @mouseenter="test()"
     @mouseleave="showActions = false"
@@ -30,16 +35,16 @@ const test = () => {
     <!-- user data -->
     <div class="flex items-center gap-3 grow-[2]">
       <div class="h-8 w-8 rounded-full overflow-hidden">
-        <img src="https://randomuser.me/api/portraits/men/32.jpg" class="object-cover" />
+        <img :src="thumbnail" class="object-cover" />
       </div>
       <div class="flex flex-col">
-        <div class="text-sm font-medium">Name</div>
-        <div class="text-sm">Email</div>
+        <div class="text-sm font-medium">{{ name }}</div>
+        <div class="text-sm">{{ email }}</div>
       </div>
     </div>
     <!-- Tag -->
     <div>
-      <TagItem :type="'ADMIN'" />
+      <TagItem :type="role" />
     </div>
     <!-- Actions -->
     <div class="flex gap-1" :class="{ visible: showActions, invisible: !showActions }">
