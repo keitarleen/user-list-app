@@ -1,28 +1,35 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import TextInput from '@/components/TextInput.vue'
+import ButtonItem from '@/components/ButtonItem.vue'
+import EditIcon from '@/components/EditIcon.vue'
+import TrashIcon from '@/components/TrashIcon.vue'
+import UserItem from '@/components/UserItem.vue'
+</script>
 
 <template>
-  <div class="header_bar">
-    <h1>Account users</h1>
-    <div>
-      <input placeholder="search" />
-      <button>Search</button>
+  <div class="flex flex-col md:flex-row md:justify-between gap-2">
+    <h1 class="font-bold">Account users</h1>
+    <div class="flex gap-2">
+      <TextInput :placeholder="'Search'" />
+      <ButtonItem :text="'Connect users'" />
     </div>
   </div>
-  <section class="users_list">Users listed here</section>
+  <section class="flex flex-col gap-4 px-8 py-6 rounded bg-white">
+    <div class="flex items-center gap-2">
+      <h2 class="font-medium">0 users selected</h2>
+      <ButtonItem :text="'Edit'" :btnType="'secondary'">
+        <EditIcon :width="16" :height="16" />
+      </ButtonItem>
+      <ButtonItem :text="'Delete'" :btnType="'secondary'">
+        <TrashIcon :width="16" :height="16" />
+      </ButtonItem>
+    </div>
+
+    <div class="flex flex-col gap-2">
+      <UserItem :selected="true" />
+      <UserItem />
+    </div>
+  </section>
 </template>
 
-<style scoped>
-.header_bar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1rem;
-}
-
-.users_list {
-  margin-top: 1rem;
-  background: #fff;
-  border-radius: 0.25rem;
-  padding: 1.5rem 2rem;
-}
-</style>
+<style scoped></style>
