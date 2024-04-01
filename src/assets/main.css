@@ -19,10 +19,13 @@
   --c-gray-lighter: #718096;
 
   --c-text-btn: var(--c-gray-dark);
-  --c-btn-hover: var(--c-blue-darker);
-  --c-border: var(--c-gray);
   --c-text-desc: var(--c-gray-lighter);
   --c-text-title: var(--c-black-lighter);
+
+  --c-btn: var(--c-blue);
+  --c-btn-hover: var(--c-blue-darker);
+
+  --c-border: var(--c-gray);
   --c-checkbox-border: var(--c-gray-darker);
 }
 
