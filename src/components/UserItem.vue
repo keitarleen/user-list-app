@@ -8,6 +8,7 @@ import type { RoleType } from '@/stores/users'
 
 withDefaults(
   defineProps<{
+    id?: number
     selected?: boolean
     name: string
     email: string
@@ -16,6 +17,8 @@ withDefaults(
   }>(),
   { selected: false }
 )
+
+const checkboxValue = defineModel()
 
 const showActions = ref<boolean>(false)
 
@@ -33,7 +36,7 @@ const test = () => {
   >
     <!-- user data -->
     <div class="flex items-center gap-3 grow overflow-hidden">
-      <input type="checkbox" />
+      <input type="checkbox" v-model="checkboxValue" :value="id" id="id" />
       <div class="shrink-0 h-8 w-8 rounded-full overflow-hidden">
         <img :src="thumbnail" class="object-cover" />
       </div>

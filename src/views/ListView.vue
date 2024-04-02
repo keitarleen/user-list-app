@@ -20,7 +20,7 @@ const users = useUsersStore()
   </div>
   <section class="flex flex-col grow gap-2 md:gap-4 px-2 md:px-8 py-6 rounded bg-white">
     <div class="flex items-center gap-2 px-4 md:px-0">
-      <h2 class="font-medium">0 users selected</h2>
+      <h2 class="font-medium">{{ users.selected.length }} users selected</h2>
       <ButtonItem :text="'Edit'" :btnType="'secondary'">
         <EditIcon :width="16" :height="16" />
       </ButtonItem>
@@ -36,7 +36,7 @@ const users = useUsersStore()
       class="flex gap-2 px-4 label_color text-sm font-medium"
     >
       <label class="grow flex gap-3">
-        <input type="checkbox" />
+        <input type="checkbox" v-model="users.selectAll" />
         <span class="text-sm">User</span>
       </label>
       <div class="shrink-0 md:w-60 text-sm">Permission</div>
@@ -53,11 +53,13 @@ const users = useUsersStore()
         >
           <UserItem
             :key="item.id"
+            :id="item.id"
             :name="item.name"
             :email="item.email"
             :thumbnail="item.avatar"
             :role="item.role"
-            :selected="false"
+            :selected="users.selected.includes(item.id)"
+            v-model="users.selected"
           />
         </RecycleScroller>
       </div>
