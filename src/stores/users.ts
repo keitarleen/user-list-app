@@ -68,7 +68,6 @@ export const useUsersStore = defineStore('users', () => {
   }
 
   const handleSortChange = () => {
-    console.log('sort change')
     if (!sortByRole.value) return (sortByRole.value = 'asc')
     if (sortByRole.value === 'asc') return (sortByRole.value = 'desc')
     if (sortByRole.value === 'desc') return (sortByRole.value = undefined)
@@ -77,6 +76,7 @@ export const useUsersStore = defineStore('users', () => {
   const handleDeleteUser = (id: number) => {
     console.log('deleted user with id', id)
     data.value = data.value.filter((item) => item.id !== id)
+    selected.value = selected.value.filter((item) => item !== id)
   }
 
   const handleBulkDelete = () => {

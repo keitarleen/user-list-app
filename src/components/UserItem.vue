@@ -29,7 +29,7 @@ const test = () => {
 </script>
 
 <template>
-  <div
+  <label
     class="flex items-center gap-2 px-4 py-3 h-16 rounded cursor-pointer"
     :class="{ selected: selected }"
     @mouseenter="test()"
@@ -56,12 +56,12 @@ const test = () => {
         <ButtonItem :text="'Edit'" :btnType="'secondary'">
           <EditIcon :width="16" :height="16" />
         </ButtonItem>
-        <ButtonItem :text="''" :btnType="'secondary'" @click="deleteUser">
+        <ButtonItem :text="''" :btnType="'secondary'" @click.stop="deleteUser">
           <TrashIcon :width="16" :height="16" />
         </ButtonItem>
       </div>
     </div>
-  </div>
+  </label>
 </template>
 
 <style scoped>

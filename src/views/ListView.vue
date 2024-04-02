@@ -19,8 +19,9 @@ const users = useUsersStore()
       <ButtonItem :text="'Connect users'" />
     </div>
   </div>
-  <section class="flex flex-col grow gap-2 md:gap-4 px-2 md:px-8 py-6 rounded bg-white">
-    <div class="flex items-center gap-2 px-4 md:px-0">
+
+  <section class="flex flex-col grow gap-2 md:gap-4 px-2 md:px-4 py-6 rounded bg-white">
+    <div class="flex items-center gap-2 px-4 md:px-4">
       <h2 class="font-medium">{{ users.selected.length }} users selected</h2>
       <ButtonItem :text="'Edit'" :btnType="'secondary'">
         <EditIcon :width="16" :height="16" />
