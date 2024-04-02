@@ -14,6 +14,7 @@ withDefaults(
     email: string
     thumbnail: string
     role: RoleType
+    deleteUser: () => void
   }>(),
   { selected: false }
 )
@@ -55,7 +56,7 @@ const test = () => {
         <ButtonItem :text="'Edit'" :btnType="'secondary'">
           <EditIcon :width="16" :height="16" />
         </ButtonItem>
-        <ButtonItem :text="''" :btnType="'secondary'">
+        <ButtonItem :text="''" :btnType="'secondary'" @click="deleteUser">
           <TrashIcon :width="16" :height="16" />
         </ButtonItem>
       </div>

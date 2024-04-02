@@ -34,6 +34,7 @@ export const useUsersStore = defineStore('users', () => {
   const selectAll = ref<boolean>(false)
 
   const listItems = computed(() => {
+    console.log('set list items')
     const items = handleSort(
       data.value.filter((item) =>
         JSON.stringify(item).toLowerCase().includes(searchInput.value.toLowerCase())
@@ -73,6 +74,17 @@ export const useUsersStore = defineStore('users', () => {
     if (sortByRole.value === 'desc') return (sortByRole.value = undefined)
   }
 
+  const handleDeleteUser = (id: number) => {
+    console.log('deleted user with id', id)
+    data.value = data.value.filter((item) => item.id !== id)
+  }
+
+  const handleBulkDelete = () => {
+    console.log('deleted selected users', selected.value)
+    data.value = data.value.filter((item) => !selected.value.includes(item.id))
+    selected.value = []
+  }
+
   const fetchUsers = () => {
     fetch('/users.json')
       .then((response) => response.json())
@@ -97,6 +109,8 @@ export const useUsersStore = defineStore('users', () => {
     handleSearch,
     handleSelected,
     handleSortChange,
+    handleDeleteUser,
+    handleBulkDelete,
     selected,
     selectAll,
     fetchUsers

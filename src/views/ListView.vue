@@ -25,7 +25,7 @@ const users = useUsersStore()
       <ButtonItem :text="'Edit'" :btnType="'secondary'">
         <EditIcon :width="16" :height="16" />
       </ButtonItem>
-      <ButtonItem :text="'Delete'" :btnType="'secondary'">
+      <ButtonItem :text="'Delete'" :btnType="'secondary'" @click="users.handleBulkDelete">
         <TrashIcon :width="16" :height="16" />
       </ButtonItem>
     </div>
@@ -43,9 +43,9 @@ const users = useUsersStore()
       <div class="shrink-0 md:w-60 lg:w-72">
         <button class="flex gap-2 items-center text-sm" @click="users.handleSortChange">
           <span>Permission</span>
-          <span :class="{ 'rotate-180': users.sortByRole === 'desc' }" class="transition"
-            ><ArrowDownIcon
-          /></span>
+          <span :class="{ 'rotate-180': users.sortByRole === 'desc' }" class="transition">
+            <ArrowDownIcon />
+          </span>
         </button>
       </div>
     </div>
@@ -67,6 +67,7 @@ const users = useUsersStore()
             :thumbnail="item.avatar"
             :role="item.role"
             :selected="users.selected.includes(item.id)"
+            :deleteUser="() => users.handleDeleteUser(item.id)"
             v-model="users.selected"
           />
         </RecycleScroller>
