@@ -4,6 +4,7 @@ import TextInput from '@/components/TextInput.vue'
 import ButtonItem from '@/components/ButtonItem.vue'
 import EditIcon from '@/components/EditIcon.vue'
 import TrashIcon from '@/components/TrashIcon.vue'
+import ArrowDownIcon from '@/components/ArrowDownIcon.vue'
 import UserItem from '@/components/UserItem.vue'
 import { useUsersStore } from '@/stores/users'
 
@@ -28,25 +29,32 @@ const users = useUsersStore()
         <TrashIcon :width="16" :height="16" />
       </ButtonItem>
     </div>
-    <div v-if="users.searchItems.length === 0" class="px-4">No users found</div>
+    <div v-if="users.listItems.length === 0" class="px-4">No users found</div>
 
     <!-- list header -->
     <div
-      v-if="users.searchItems.length !== 0"
+      v-if="users.listItems.length !== 0"
       class="flex gap-2 px-4 label_color text-sm font-medium"
     >
-      <label class="grow flex gap-3">
+      <label class="grow flex gap-3 cursor-pointer">
         <input type="checkbox" v-model="users.selectAll" />
         <span class="text-sm">User</span>
       </label>
-      <div class="shrink-0 md:w-60 text-sm">Permission</div>
+      <div class="shrink-0 md:w-60 lg:w-72">
+        <button class="flex gap-2 items-center text-sm" @click="users.handleSortChange">
+          <span>Permission</span>
+          <span :class="{ 'rotate-180': users.sortByRole === 'desc' }" class="transition"
+            ><ArrowDownIcon
+          /></span>
+        </button>
+      </div>
     </div>
 
     <div class="relative grow">
       <div class="scroller_wrapper">
         <RecycleScroller
           class="scroller"
-          :items="users.searchItems"
+          :items="users.listItems"
           :item-size="64"
           key-field="id"
           v-slot="{ item }"

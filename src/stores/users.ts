@@ -26,23 +26,51 @@ const PRIORITIES = {
 
 export const useUsersStore = defineStore('users', () => {
   const data = ref<Array<UserType>>([])
+
   const searchInput = ref<string>('')
   const selected = ref<Array<number>>([])
+  const sortByRole = ref<'asc' | 'desc' | undefined>(undefined)
 
   const selectAll = ref<boolean>(false)
 
-  const searchItems = computed(() => {
+  const listItems = computed(() => {
+    const items = handleSort(
+      data.value.filter((item) =>
+        JSON.stringify(item).toLowerCase().includes(searchInput.value.toLowerCase())
+      )
+    )
+
+    return items
+  })
+
+  const handleSearch = () => {
     if (searchInput.value.length === 0) return data.value
 
     return data.value.filter((item) =>
       JSON.stringify(item).toLowerCase().includes(searchInput.value.toLowerCase())
     )
-  })
+  }
+
+  const handleSort = (items: Array<UserType>): UserType[] => {
+    if (sortByRole.value === 'asc')
+      return items.sort((a, b) => PRIORITIES[a.role] - PRIORITIES[b.role])
+    if (sortByRole.value === 'desc')
+      return items.sort((a, b) => PRIORITIES[b.role] - PRIORITIES[a.role])
+
+    return items
+  }
 
   const handleSelected = (id: number) => {
     if (selected.value.includes(id)) return selected.value.filter((item) => item !== id)
 
     selected.value = [...selected.value, id]
+  }
+
+  const handleSortChange = () => {
+    console.log('sort change')
+    if (!sortByRole.value) return (sortByRole.value = 'asc')
+    if (sortByRole.value === 'asc') return (sortByRole.value = 'desc')
+    if (sortByRole.value === 'desc') return (sortByRole.value = undefined)
   }
 
   const fetchUsers = () => {
@@ -54,11 +82,23 @@ export const useUsersStore = defineStore('users', () => {
   }
 
   watch(selectAll, () => {
-    if (selectAll.value) selected.value = searchItems.value.map((item) => item.id)
+    if (selectAll.value) selected.value = listItems.value.map((item) => item.id)
     else selected.value = []
   })
 
   onMounted(() => fetchUsers())
 
-  return { data, searchInput, searchItems, handleSelected, selected, selectAll, fetchUsers }
+  return {
+    data,
+    searchInput,
+    sortByRole,
+    listItems,
+    handleSort,
+    handleSearch,
+    handleSelected,
+    handleSortChange,
+    selected,
+    selectAll,
+    fetchUsers
+  }
 })
