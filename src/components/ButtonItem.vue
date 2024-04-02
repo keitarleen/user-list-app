@@ -12,7 +12,7 @@ withDefaults(
 
 <template>
   <button
-    class="flex gap-2 px-3 py-2 rounded text-white items-center"
+    class="flex gap-2 px-3 py-2 rounded text-white items-center justify-center"
     :class="{ [btnType]: btnType }"
   >
     <slot />

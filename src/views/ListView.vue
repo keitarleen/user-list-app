@@ -13,8 +13,8 @@ const users = useUsersStore()
 <template>
   <div class="flex flex-col md:flex-row md:justify-between gap-2">
     <h1 class="font-bold">Account users</h1>
-    <div class="flex gap-2">
-      <TextInput :placeholder="'Search'" />
+    <div class="flex flex-col md:flex-row gap-2">
+      <TextInput :placeholder="'Search'" v-model="users.searchInput" />
       <ButtonItem :text="'Connect users'" />
     </div>
   </div>
@@ -28,9 +28,13 @@ const users = useUsersStore()
         <TrashIcon :width="16" :height="16" />
       </ButtonItem>
     </div>
+    <div v-if="users.searchItems.length === 0" class="px-4">No users found</div>
 
     <!-- list header -->
-    <div class="flex gap-2 px-4 label_color text-sm font-medium">
+    <div
+      v-if="users.searchItems.length !== 0"
+      class="flex gap-2 px-4 label_color text-sm font-medium"
+    >
       <label class="grow flex gap-3">
         <input type="checkbox" />
         <span class="text-sm">User</span>
@@ -38,12 +42,11 @@ const users = useUsersStore()
       <div class="shrink-0 md:w-60 text-sm">Permission</div>
     </div>
 
-    <div v-if="users.data.length === 0">No users found</div>
     <div class="relative grow">
       <div class="scroller_wrapper">
         <RecycleScroller
           class="scroller"
-          :items="users.data"
+          :items="users.searchItems"
           :item-size="64"
           key-field="id"
           v-slot="{ item }"

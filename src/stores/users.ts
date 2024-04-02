@@ -1,4 +1,4 @@
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { defineStore } from 'pinia'
 
 export type RoleType =
@@ -18,6 +18,15 @@ type UserType = {
 
 export const useUsersStore = defineStore('users', () => {
   const data = ref<Array<UserType>>([])
+  const searchInput = ref<string>('')
+
+  const searchItems = computed(() => {
+    if (searchInput.value.length === 0) return data.value
+
+    return data.value.filter((item) =>
+      JSON.stringify(item).toLowerCase().includes(searchInput.value.toLowerCase())
+    )
+  })
 
   const fetchUsers = () => {
     fetch('/users.json')
@@ -29,5 +38,5 @@ export const useUsersStore = defineStore('users', () => {
 
   onMounted(() => fetchUsers())
 
-  return { data, fetchUsers }
+  return { data, searchInput, searchItems, fetchUsers }
 })
