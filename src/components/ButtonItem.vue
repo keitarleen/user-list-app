@@ -1,11 +1,15 @@
 <script setup lang="ts">
+import type { ButtonHTMLAttributes } from 'vue'
+
 withDefaults(
   defineProps<{
     text?: string
     btnType?: 'primary' | 'secondary'
+    type?: ButtonHTMLAttributes['type']
   }>(),
   {
-    btnType: 'primary'
+    btnType: 'primary',
+    type: 'button'
   }
 )
 </script>
@@ -14,6 +18,7 @@ withDefaults(
   <button
     class="flex gap-2 px-3 py-2 rounded text-white items-center justify-center"
     :class="{ [btnType]: btnType }"
+    :type="type"
   >
     <slot />
     <span v-if="text" class="text-inherit font-medium text-sm">{{ text }}</span>
