@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Role } from '@/stores/users'
+import type { RoleType } from '@/stores/users'
 
 const ROLE = {
   ADMIN: 'Admin',
@@ -10,7 +10,7 @@ const ROLE = {
 }
 
 defineProps<{
-  type: Role
+  type: RoleType
 }>()
 </script>
 
