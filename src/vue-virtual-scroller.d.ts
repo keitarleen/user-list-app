@@ -1,61 +1,114 @@
-import Vue, { ComponentOptions, PluginObject } from 'vue'
+declare module 'vue-virtual-scroller' {
+  import type {
+    ComponentOptionsMixin,
+    ComponentPropsOptions,
+    ComputedOptions,
+    DefineComponent,
+    MethodOptions
+  } from 'vue'
 
-interface PluginOptions {
-  installComponents?: boolean
-  componentsPrefix?: string
-}
+  type ArrayElement<ArrayType extends readonly unknown[]> =
+    ArrayType extends readonly (infer ElementType)[] ? ElementType : never
 
-declare const plugin: PluginObject<PluginOptions> & { version: string }
+  type RecycleScrollerProps = {
+    items: any[]
+    direction?: 'vertical' | 'horizontal'
+    itemSize?: number | null
+    gridItems?: number
+    itemSecondarySize?: number
+    minItemSize?: number
+    sizeField?: string
+    typeField?: string
+    keyField?: string
+    pageMode?: boolean
+    prerender?: number
+    buffer?: number
+    emitUpdate?: boolean
+    updateInterval?: number
+    listClass?: string
+    itemClass?: string
+    listTag?: string
+    itemTag?: string
+  }
 
-export class RecycleScroller extends Vue {
-  sizes: Array<{ accumulator: number }>
-  itemSize: number | null
-  totalSize: number
-  ready: boolean
-  emitUpdate: boolean
-  prerender: number
-  pageMode: boolean
-  buffer: number
-  typeField: string
-  sizeField: string
-  minItemSize: number | string | null
-  direction: 'horizontal' | 'vertical'
-  pool: Array<{
-    item: unknown
-    position: number
-    nr: {
-      id: number
-      index: number
-      key: string
-      type: unknown
-      used: boolean
-    }
-  }>
-  getScroll(): { start: number; end: number }
-  scrollToItem(index: number): void
-  scrollToPosition(position: number)
-}
-export class DynamicScroller extends RecycleScroller {
-  minItemSize: number | string
-  vscrollData: {
+  type RecycleScrollerEmits =
+    | 'resize'
+    | 'visible'
+    | 'hidden'
+    | 'update'
+    | 'scroll-start'
+    | 'scroll-end'
+
+  type RecycleScrollerEmitFunctions = {
+    resize: () => void
+    visible: () => void
+    hidden: () => void
+    update: (
+      tartIndex: number,
+      endIndex: number,
+      visibleStartIndex: number,
+      visibleEndIndex: number
+    ) => void
+    'scroll-start': () => void
+    'scroll-end': () => void
+  }
+
+  type RecycleScrollerSlotProps = {
+    item: ArrayElement<RecycleScrollerProps['items']>
+    index: number
     active: boolean
-    sizes: Record<string, number>
-    validSizes: object
-    keyField: string
-    simpleArray: boolean
   }
 
-  $refs: {
-    scroller: RecycleScroller
+  type RecycleScrollerSlots = {
+    default: (slotProps: any) => VNode[]
+    before: () => VNode[]
+    empty: () => VNode[]
+    after: () => VNode[]
   }
 
-  onScrollerResize(): void
-  onScrollerVisible(): void
-  forceUpdate(clear?: boolean): void
-  scrollToItem(index: number): void
-  getItemSize(item: object, index?: number): number
-  scrollToBottom(): void
+  interface RecycleScrollerPublicMethods extends MethodOptions {
+    getScroll(): { start: number; end: number }
+    scrollToItem(index: number): void
+    scrollToPosition(position: number)
+  }
+
+  export const RecycleScroller: DefineComponent<
+    ComponentPropsOptions<RecycleScrollerProps>,
+    object,
+    object,
+    ComputedOptions,
+    RecycleScrollerPublicMethods,
+    ComponentOptionsMixin,
+    ComponentOptionsMixin,
+    RecycleScrollerEmitFunctions,
+    RecycleScrollerEmits,
+    RecycleScrollerProps
+  >
+
+  export const DynamicScroller: RecycleScroller
+
+  type DynamicScrollerItemProps = {
+    item: any
+    active: boolean
+    sizeDependencies?: any[]
+    watchData?: boolean
+    tag?: string
+    emitResize?: boolean
+    onResize: () => void
+  }
+
+  type DynamicScrollerItemEmits = 'resize'
+
+  export const DynamicScrollerItem: DefineComponent<
+    ComponentPropsOptions<DynamicScrollerItemProps>,
+    object,
+    object,
+    ComputedOptions,
+    MethodOptions,
+    ComponentOptionsMixin,
+    ComponentOptionsMixin,
+    DynamicScrollerItemEmits[],
+    DynamicScrollerItemEmits,
+    DynamicScrollerItemProps
+  >
 }
-export class DynamicScrollerItem extends Vue {}
-
-export default plugin
