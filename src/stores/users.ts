@@ -24,12 +24,22 @@ const PRIORITIES = {
   EXTERNAL_REVIEWER: 4
 }
 
+export const ROLE_TYPES = [
+  { label: 'Admin', value: 'ADMIN' },
+  { label: 'Agent', value: 'AGENT' },
+  { label: 'Account manager', value: 'ACCOUNT_MANAGER' },
+  { label: 'External reviewer', value: 'EXTERNAL_REVIEWER' },
+  { label: 'Workspace manager', value: 'WORKSPACE_MANAGER' }
+]
+
 export const useUsersStore = defineStore('users', () => {
   const data = ref<Array<UserType>>([])
 
   const searchInput = ref<string>('')
   const selected = ref<Array<number>>([])
   const sortByRole = ref<'asc' | 'desc' | undefined>(undefined)
+  const editUser = ref<UserType>()
+  const editUserModalOpen = ref<boolean>(false)
 
   const selectAll = ref<boolean>(false)
 
@@ -85,6 +95,24 @@ export const useUsersStore = defineStore('users', () => {
     selected.value = []
   }
 
+  const handleEditUserModal = (user: UserType) => {
+    editUser.value = user
+    editUserModalOpen.value = true
+  }
+
+  const handleEditUser = () => {
+    console.log('Save user details and update list')
+    editUserModalOpen.value = false
+  }
+
+  const handleBulkEdit = () => {
+    alert('Stay tuned. Bulk edit coming soon.')
+  }
+
+  const handleConnect = () => {
+    alert('Stay tuned. This feature is being built right at this moment.')
+  }
+
   const fetchUsers = () => {
     fetch('/users.json')
       .then((response) => response.json())
@@ -105,12 +133,18 @@ export const useUsersStore = defineStore('users', () => {
     searchInput,
     sortByRole,
     listItems,
+    editUserModalOpen,
+    editUser,
     handleSort,
     handleSearch,
     handleSelected,
     handleSortChange,
     handleDeleteUser,
     handleBulkDelete,
+    handleEditUser,
+    handleBulkEdit,
+    handleConnect,
+    handleEditUserModal,
     selected,
     selectAll,
     fetchUsers

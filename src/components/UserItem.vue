@@ -15,6 +15,7 @@ withDefaults(
     thumbnail: string
     role: RoleType
     deleteUser: () => void
+    editUser: () => void
   }>(),
   { selected: false }
 )
@@ -37,7 +38,7 @@ const test = () => {
   >
     <!-- user data -->
     <div class="flex items-center gap-3 grow overflow-hidden">
-      <input type="checkbox" v-model="checkboxValue" :value="id" id="id" />
+      <input type="checkbox" v-model="checkboxValue" :value="id" id="id" class="cursor-pointer" />
       <div class="shrink-0 h-8 w-8 rounded-full overflow-hidden">
         <img :src="thumbnail" class="object-cover" />
       </div>
@@ -46,14 +47,14 @@ const test = () => {
         <div class="text-sm overflow-ellipsis">{{ email }}</div>
       </div>
     </div>
-    <div class="flex shrink-0 md:w-60 gap-4 justify-between">
+    <div class="flex shrink-0 md:w-60 lg:w-72 gap-4 justify-between">
       <!-- Tag -->
       <div>
         <TagItem :type="role" />
       </div>
       <!-- Actions -->
       <div class="hidden md:flex gap-1" :class="{ visible: showActions, invisible: !showActions }">
-        <ButtonItem :text="'Edit'" :btnType="'secondary'">
+        <ButtonItem :text="'Edit'" :btnType="'secondary'" @click.stop="editUser">
           <EditIcon :width="16" :height="16" />
         </ButtonItem>
         <ButtonItem :text="''" :btnType="'secondary'" @click.stop="deleteUser">
