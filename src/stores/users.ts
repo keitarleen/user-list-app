@@ -62,7 +62,7 @@ export const useUsersStore = defineStore('users', () => {
     )
   }
 
-  const handleSort = (items: Array<UserType>): UserType[] => {
+  const handleSort = (items: Array<UserType>): Array<UserType> => {
     if (sortByRole.value === 'asc')
       return items.sort((a, b) => PRIORITIES[a.role] - PRIORITIES[b.role])
     if (sortByRole.value === 'desc')
